@@ -35,14 +35,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'debug_toolbar',
-    'djangoratings'
+    'djangoratings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
 ]
 
 MIDDLEWARE = [

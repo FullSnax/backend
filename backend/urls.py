@@ -22,5 +22,5 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('wel/', ReactView.as_view(), name="something"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('__debug__/', include('debug_toolbar.urls'))
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
