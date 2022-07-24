@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from . models import *
 from rest_framework.response import Response
 from . serializer import *
-from django.shortcuts import HttpResponse
 # Create your views here.
 
 class ReactView(APIView):

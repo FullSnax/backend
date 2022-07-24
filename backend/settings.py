@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'debug_toolbar',
-    'djangoratings',
+    # 'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
