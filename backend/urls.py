@@ -16,11 +16,14 @@ Including another URLconf
 import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from core.views import *
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('wel/', ReactView.as_view(), name="something"),
+	path('profile/', ProfileView.as_view(), name="profile"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
+    path('', include('core.urls')),
 ]
