@@ -36,7 +36,6 @@ class ProfileView(APIView):
     serializer_class = ProfileSerializer
 
     def get(self, request):
-        profile = Profile.objects.get(id=1)
         user = [
             {
                 "username": profile.user.username,
@@ -45,10 +44,9 @@ class ProfileView(APIView):
                 "first_name": profile.user.first_name,
                 "last_name": profile.user.last_name,
                 "email": profile.user.email,
-                
             }
+            for profile in Profile.objects.all()
         ]
-        # for test in profile:
         return Response(user)
 
 
