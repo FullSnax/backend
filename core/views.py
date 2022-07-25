@@ -30,42 +30,50 @@ class ReactView(APIView):
             serializer.save()
             return Response(serializer.data)
 
+
 class ProfileView(APIView):
 
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
 
-def get(self, request):
-  profile = [
-        {
-            "address": profile.address,
-            "created_at": profile.created_date
-        }
-        for profile in Profile.objects.all()
-    ]
-  return Response(profile)
-
-class UserView(APIView):
-
-    serializer_class = UserSerializer
-
-def get_user(user_id):
-  user = [
-        {
-            "user_id": user_id,
-            # "first_name": User.user.first_name,
-            # "last_name": User.user.last_name,
-            # "email": User.user.email,
-        }
-        for user in User.objects.all()
-    ]
-  return Response(user)
+    def get(self, request):
+        profile = Profile.objects.get(id=1)
+        user = [
+            {
+                "username": profile.user.username,
+                "created_date": profile.created_date,
+                "address": profile.address,
+                "first_name": profile.user.first_name,
+                "last_name": profile.user.last_name,
+                "email": profile.user.email,
+                
+            }
+        ]
+        # for test in profile:
+        return Response(user)
 
 
-def post(self, request):
-    serializer = MenuItemSerializer(data=request.data)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data)
+# class UserView(APIView):
+
+#     serializer_class = UserSerializer
+
+# def get_user(user_id):
+#   user = [
+#         {
+#             "user_id": user_id,
+#             # "first_name": User.user.first_name,
+#             # "last_name": User.user.last_name,
+#             # "email": User.user.email,
+#         }
+#         for user in User.objects.all()
+#     ]
+#   return Response(user)
+
+
+# def post(self, request):
+#     serializer = MenuItemSerializer(data=request.data)
+#     if serializer.is_valid(raise_exception=True):
+#         serializer.save()
+#         return Response(serializer.data)
 
 
 class MenuItemView(APIView):
