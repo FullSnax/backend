@@ -13,7 +13,7 @@ class React(models.Model):
 class Profile(models.Model):
   address = models.CharField(max_length=100)
   created_date = models.DateField(auto_now_add=True)
-  phone_number = models.CharField(max_length=10)
+  # phone_number = models.IntegerField()
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   
   def __str__(self):
