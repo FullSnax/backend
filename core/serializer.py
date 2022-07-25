@@ -10,12 +10,12 @@ class ReactSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Profile
-		fields = ['username', 'first_name', 'last_name', 'email', 'address', 'created_date']
+		fields = ['address', 'created_date']
   
 class MenuItemSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MenuItem
-		fields = ['name', 'description', 'price', 'image', 'qty']
+		fields = '__all__'
   
 class UserSerializer(serializers.ModelSerializer):
 	class Meta:

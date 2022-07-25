@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import renderers
 from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
 from .serializer import *
 from . import views
 from django.contrib.auth.models import User
@@ -96,3 +97,8 @@ class MenuItemView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+        
+class MenuItemViewSet(ModelViewSet):
+    serializer_class = MenuItemSerializer
+    queryset = MenuItem.objects.all()
+    
