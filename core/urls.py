@@ -5,5 +5,6 @@ from rest_framework import renderers
 
 urlpatterns = [
   path('profile/', ProfileView.as_view(), name='profiles'),
-  path('menuitems/', MenuItemView.as_view(), name='menu_item'),
+  path('profile/<int:pk>/update', ProfileView.as_view(), name='profile_update'),
+  path('menuitems/', MenuItemView.as_view(), name='menu_items'),
 ]

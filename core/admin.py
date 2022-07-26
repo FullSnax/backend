@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import React, Profile, MenuItem, Order, Courier
+from .models import *
 
 admin.site.register(React)
 admin.site.register(Profile)
