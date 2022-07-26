@@ -28,8 +28,8 @@ class MenuItem(models.Model):
   
   @property
   def get_photo_url(self):
-    if self.image and hasattr(self.image, 'url'):
-        return self.image.url
+    if self.image and hasattr(self.image):
+        return self.image
     else:
         return "/static/images/nopic.jpg"
   

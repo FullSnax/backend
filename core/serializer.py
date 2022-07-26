@@ -25,5 +25,5 @@ class CourierSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Order
-		fields = '__all__'
+		fields = ['date', 'menu_items', 'tax', 'tip', 'total']
   

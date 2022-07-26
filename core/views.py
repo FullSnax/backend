@@ -54,21 +54,22 @@ class MenuItemView(APIView):
             serializer.save()
             return Response(serializer.data)
         
-# class OrderView(APIView):
+class OrderView(APIView):
 
-#     serializer_class = OrderSerializer
+    serializer_class = OrderSerializer
 
-#     def get(self, request):
-#         user = [
-#             {
-#                 "username": profile.user.username,
-#                 "created_date": profile.created_date,
-#                 "address": profile.address,
-#                 "first_name": profile.user.first_name,
-#                 "last_name": profile.user.last_name,
-#                 "email": profile.user.email,
-#             }
-#             for order in Order.objects.all()
-#         ]
-#         return Response(user)
+    def get(self, request):
+        order = [
+            {
+                # "profile": profile_id.user.order,
+                "date": order.date,
+                "menu_items": order.menu_items,
+                # "courier": order.courier,
+                "tax": order.tax,
+                "tip": order.tip,
+                "total": order.total,
+            }
+            for order in Order.objects.all()
+        ]
+        return Response(order)
 
