@@ -10,7 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MenuItem
-		fields = ['name', 'description', 'price', 'qty']
+		fields = ['name', 'description', 'price', 'qty', 'image']
   
 class UserSerializer(serializers.ModelSerializer):
 	class Meta:

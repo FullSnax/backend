@@ -23,8 +23,15 @@ class MenuItem(models.Model):
   name = models.CharField(max_length=100)
   description = models.CharField(max_length=100)
   price = models.DecimalField(decimal_places=2, max_digits=5)
-  image = models.ImageField(blank=True, upload_to="images/")
+  image = models.ImageField(null=True, blank=True, upload_to="images/")
   qty = models.IntegerField(default=1)
+  
+  @property
+  def get_photo_url(self):
+    if self.image and hasattr(self.image, 'url'):
+        return self.image.url
+    else:
+        return "/static/images/nopic.jpg"
   
   def __str__(self):
       return f"{self.name}"
