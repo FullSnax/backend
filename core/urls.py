@@ -5,5 +5,4 @@ from rest_framework import renderers
 
 urlpatterns = [
   path('profile/', ProfileView.as_view(), name='profile'),
-  path('wel/', ReactView.as_view(), name="react"),
 ]

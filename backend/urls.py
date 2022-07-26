@@ -2,7 +2,7 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
 from core.views import *
-from core.urls import router
+from core.routers import router
  
 urlpatterns = [
 	path('admin/', admin.site.urls),
