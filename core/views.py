@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+
 class ProfileView(APIView):
 
     serializer_class = ProfileSerializer
@@ -31,6 +32,43 @@ class ProfileView(APIView):
         ]
         return Response(user)
 
+
+class MenuItemView(APIView):
+
+    serializer_class = MenuItemSerializer
+    # image_data = tf.gfile.FastGFile(filename, 'rb').read()
+
+    def get(self, request):
+        menu_items = [
+            {
+                "name": item.name,
+                "description": item.description,
+                "price": item.price,
+                # "image": item.image,
+                "qty": item.qty,
+            }
+            for item in MenuItem.objects.all()
+        ]
+        return Response(menu_items)
+
+    def post(self, request):
+        serializer = MenuItemSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+# class MenuItemViewSet(ModelViewSet):
+#     serializer_class = MenuItemSerializer
+#     queryset = MenuItem.objects.all()
+
+# class CourierViewSet(ModelViewSet):
+#     serializer_class = CourierSerializer
+#     queryset = Courier.objects.all()
+
+# class OrderViewSet(ModelViewSet):
+#     serializer_class = OrderSerializer
+#     queryset = Order.objects.all()
 
 # class UserView(APIView):
 
@@ -54,42 +92,3 @@ class ProfileView(APIView):
 #     if serializer.is_valid(raise_exception=True):
 #         serializer.save()
 #         return Response(serializer.data)
-
-
-# class MenuItemView(APIView):
-
-#     serializer_class = MenuItemSerializer
-
-#     def get(self, request):
-#         item = [
-#             {
-#                 "name": item.name,
-#                 "description": item.description,
-#                 "price": item.price,
-#                 "image": item.image,
-#                 "qty": item.qty,
-#             }
-#             for item in MenuItem.objects.all()
-#         ]
-#         return Response(item)
-
-#     def post(self, request):
-#         serializer = MenuItemSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
-        
-class MenuItemViewSet(ModelViewSet):
-    serializer_class = MenuItemSerializer
-    queryset = MenuItem.objects.all()
-    
-class CourierViewSet(ModelViewSet):
-    serializer_class = CourierSerializer
-    queryset = Courier.objects.all()
-    
-class OrderViewSet(ModelViewSet):
-    serializer_class = OrderSerializer
-    queryset = Order.objects.all()
-
-        
-    
