@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'pk', 'status')
         
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+  
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -20,6 +21,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
+        token['password'] = user.password
         # ...
 
         return token
@@ -61,11 +63,6 @@ class MenuItemSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MenuItem
 		fields = ['name', 'description', 'price', 'qty', 'image']
-  
-# class UserSerializer(serializers.ModelSerializer):
-# 	class Meta:
-# 		model = User
-# 		fields = ['username', 'first_name', 'last_name', 'email']
   
 class CourierSerializer(serializers.ModelSerializer):
 	class Meta:

@@ -6,7 +6,7 @@ from .models import *
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import renderers
-from core.serializer import MyTokenObtainPairSerializer, RegisterSerializer
+from core.serializer import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -42,6 +42,7 @@ def getRoutes(request):
         '/api/register/',
         '/api/token/refresh/',
         '/api/prediction/'
+        
     ]
     return Response(routes)
 
@@ -59,6 +60,26 @@ def EndPoint(request):
 
 def RegisterPage(request):
     return render(request, 'RegisterPage')
+
+class LoginView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = MyTokenObtainPairSerializer
+
+@api_view(['GET', 'POST'])
+def LoginPage(request):
+    return render(request, 'LoginPage')
+    
+# @api_view(['GET', 'POST'])
+# def getRoutes(request):
+#     routes = [
+#         '/accounts/logout/',
+#         '/accounts/login/',
+#         '/accounts/password_change/',
+#         '/accounts/password_reset/'
+        
+#     ]
+#     return Response(routes)
 
 class ProfileView(APIView):
 

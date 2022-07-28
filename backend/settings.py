@@ -133,7 +133,7 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ( 'rest_framework.permissions.IsAdminUser'),
+    'DEFAULT_PERMISSION_CLASSES': ( 'rest_framework.permissions.IsAdminUser',),
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
