@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'core',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'debug_toolbar',
     'django.contrib.admin',
