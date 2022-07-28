@@ -23,10 +23,12 @@ from datetime import timedelta
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
-def b64e(s):
-    token = RefreshToken(base64_encoded_token_string)
-    return base64.b64encode(s.encode()).decode()
-    token.blacklist()
+class BlacklistRefreshView(APIView):
+    
+    def post(self, request):
+        token = RefreshToken(request.data.get('refresh'))
+        token.blacklist()
+        return Response("Success")
     
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -54,6 +56,9 @@ def EndPoint(request):
         data = f'Congratulation your API just responded to POST request with text: {text}'
         return Response({'response': data}, status=status.HTTP_200_OK)
     return Response({}, status.HTTP_400_BAD_REQUEST)
+
+def RegisterPage(request):
+    return render(request, 'RegisterPage')
 
 class ProfileView(APIView):
 
