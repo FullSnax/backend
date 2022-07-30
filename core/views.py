@@ -44,11 +44,7 @@
 #         return data
 
 
-# class BlacklistRefreshView(APIView):
-#     def post(self, request):
-#         token = RefreshToken(request.data.get("refresh"))
-#         token.blacklist()
-#         return Response("Success")
+
 
 
 # class RegisterView(generics.CreateAPIView):
