@@ -1,5 +1,6 @@
 from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
+# Needed for SIMPLE_JWT
 from datetime import timedelta
 import os
 
@@ -15,6 +16,9 @@ SECRET_KEY = 'django-insecure-5sjivg99sk%q476*6*$1st8wdy*9bnmu(yxy5g3l*ai77&6ddl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Custom user model "Profile"
+AUTH_USER_MODEL = "authentication.Profile"
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -22,6 +26,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'core',
     'corsheaders',
+    'authentication',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -133,40 +138,27 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ( 'rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),  # 
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
     'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
-
-    # 'ALGORITHM': 'HS256',
+    'BLACKLIST_AFTER_ROTATION': False,
+    'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'JWK_URL': None,
-    'LEEWAY': 0,
-
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'AUTH_HEADER_TYPES': ('JWT',),
     'USER_ID_FIELD': 'id',
-    'ALGORITHM': 'HS512',
     'USER_ID_CLAIM': 'user_id',
-    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
-    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
-
-    'JTI_CLAIM': 'jti',
-
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
