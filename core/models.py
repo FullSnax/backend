@@ -42,7 +42,6 @@ class Courier(models.Model):
 class Order(models.Model):
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
   date = models.DateField(auto_now_add=True)
-  # status (icebox)
   menu_items = models.ManyToManyField(MenuItem)
   courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default='')
   total = models.DecimalField(decimal_places=2, max_digits=10)
