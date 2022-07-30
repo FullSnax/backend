@@ -11,20 +11,22 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'pk', 'status')
-        
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
   
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data.pop('refresh', None) # remove refresh from the payload
+        data['access'] = str(refresh.access_token)
 
-        # Add custom claims
-        token['username'] = user.username
-        token['email'] = user.email
-        token['password'] = user.password
-        # ...
-
-        return token
+        # Add extra responses here
+        data['user'] = self.user.username
+        data['email'] = self.user.email
+        data['first_name'] = self.user.first_name
+        data['last_name'] = self.user.last_name
+        # data['created_at'] = datetime.date.today()
+        return data
       
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -49,15 +51,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         user.set_password(validated_data['password'])
         user.save()
+        
+        profile = Profile(user=user)
+        profile.save()
+        
         return user
-      
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
 
 class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Profile
-		fields = ['address', 'created_date']
+		fields = '__all__'
   
 class MenuItemSerializer(serializers.ModelSerializer):
 	class Meta:

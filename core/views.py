@@ -6,7 +6,11 @@ from .models import *
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import renderers
-from core.serializer import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
+from core.serializer import (
+    MyTokenObtainPairSerializer,
+    RegisterSerializer,
+    UserSerializer,
+)
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -20,66 +24,86 @@ from datetime import timedelta
 
 # Create your views here.
 
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-    
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data["refresh"] = str(refresh)
+        data.pop("refresh", None)  # remove refresh from the payload
+        data["access"] = str(refresh.access_token)
+
+        # Add extra responses here
+        data["username"] = self.user.username
+        data["email"] = self.user.email
+        data["first_name"] = self.user.first_name
+        data["last_name"] = self.user.last_name
+        # data["created_date"] = datetime.date.today()
+        return data
+
+
 class BlacklistRefreshView(APIView):
-    
     def post(self, request):
-        token = RefreshToken(request.data.get('refresh'))
+        token = RefreshToken(request.data.get("refresh"))
         token.blacklist()
         return Response("Success")
-    
+
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
-    
-@api_view(['GET'])
+
+
 def getRoutes(request):
     routes = [
-        '/api/token/',
-        '/api/register/',
-        '/api/token/refresh/',
-        '/api/prediction/'
-        
+        "/api/token/",
+        "/api/register/",
+        "/api/token/refresh/",
+        "/api/prediction/",
     ]
     return Response(routes)
 
-@api_view(['GET', 'POST'])
-@permission_classes((IsAuthenticated,))
-def EndPoint(request):
-    if request.method == 'GET':
-        data = f"Congratulation {request.user}, your API just responded to GET request"
-        return Response({'response': data}, status=status.HTTP_200_OK)
-    elif request.method == 'POST':
-        text = request.POST.get('text')
-        data = f'Congratulation your API just responded to POST request with text: {text}'
-        return Response({'response': data}, status=status.HTTP_200_OK)
-    return Response({}, status.HTTP_400_BAD_REQUEST)
+    @api_view(["GET", "POST"])
+    def EndPoint(request):
+        if request.method == "GET":
+            data = (
+                f"Congratulation {request.user}, your API just responded to GET request"
+            )
+            return Response({"response": data}, status=status.HTTP_200_OK)
+        elif request.method == "POST":
+            text = request.POST.get("text")
+            data = f"Congratulation your API just responded to POST request with text: {text}"
+            return Response({"response": data}, status=status.HTTP_200_OK)
+            print(data)
+        return Response({}, status.HTTP_400_BAD_REQUEST)
+
 
 def RegisterPage(request):
-    return render(request, 'RegisterPage')
+    return render(request, "RegisterPage")
+
 
 class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     serializer_class = MyTokenObtainPairSerializer
 
-@api_view(['GET', 'POST'])
-def LoginPage(request):
-    return render(request, 'LoginPage')
-    
-# @api_view(['GET', 'POST'])
-# def getRoutes(request):
-#     routes = [
-#         '/accounts/logout/',
-#         '/accounts/login/',
-#         '/accounts/password_change/',
-#         '/accounts/password_reset/'
-        
-#     ]
-#     return Response(routes)
+    @api_view(["GET", "POST"])
+    def LoginAPI(request):
+        if request.method == "GET":
+            data = (
+                f"Congratulation {request.user}, your API just responded to GET request"
+            )
+            return Response({"response": data}, status=status.HTTP_200_OK)
+        elif request.method == "POST":
+            text = request.POST.get("text")
+            data = f"Congratulation your API just responded to POST request with text: {text}"
+            return Response({"response": data}, status=status.HTTP_200_OK)
+            print(data)
+        return Response({}, status.HTTP_400_BAD_REQUEST)
+
 
 class ProfileView(APIView):
 
@@ -98,7 +122,8 @@ class ProfileView(APIView):
             for profile in Profile.objects.all()
         ]
         return Response(user)
-    
+
+
 class MenuItemView(APIView):
 
     serializer_class = MenuItemSerializer
@@ -122,7 +147,8 @@ class MenuItemView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
-        
+
+
 class OrderView(APIView):
 
     serializer_class = OrderSerializer
@@ -142,3 +168,36 @@ class OrderView(APIView):
         ]
         return Response(order)
 
+
+# def post(self, request, format=None):
+#     data = request.data
+#     username = data["username"]
+#     # email = data['email']
+#     password = data["password"]
+#     try:
+#         if User.objects.filter(username=username).exists():
+#             return Response(
+#                 {"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST
+#             )
+#         else:
+#             if len(password) < 3:
+#                 return Response(
+#                     {"error": "Password must be at least 3 characters"},
+#                     status=status.HTTP_400_BAD_REQUEST,
+#                 )
+#             else:
+#                 user = User.objects.create_user(
+#                     username=username, password=password, email=email
+#                 )
+#                 user.save()
+#                 profile = Profile(user=user)
+#                 profile.save()
+#                 # login user
+#                 login(request, user)
+#                 return Response({"success": "User created successfully"})
+#     except Exception as e:
+#         print(e)
+#         return Response(
+#             {"error": "Something went wrong during resgistration"},
+#             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+#         )

@@ -3,18 +3,14 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class React(models.Model):
-	name = models.CharField(max_length=100)
-	detail = models.CharField(max_length=100)
-
-	def __str__(self):
-			return f"The name is {self.name} and is {self.detail}"
- 
 class Profile(models.Model):
-  address = models.CharField(max_length=100)
-  created_date = models.DateField(auto_now_add=True)
-  # phone_number = models.IntegerField()
   user = models.OneToOneField(User, on_delete=models.CASCADE)
+  created_date = models.DateField(auto_now_add=True)
+  address = models.CharField(max_length=100)
+  country = models.CharField(max_length=50)
+  fav_food = models.CharField(max_length=100)
+  phone_number = models.CharField(max_length=25)
+  instructions = models.CharField(200)
   
   def __str__(self):
 			return f"{self.user}"
@@ -50,8 +46,6 @@ class Order(models.Model):
   menu_items = models.ManyToManyField(MenuItem)
   courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default='')
   total = models.DecimalField(decimal_places=2, max_digits=10)
-  delivery_fee = models.DecimalField(decimal_places=2, max_digits=5)
-  service_fee = models.DecimalField(decimal_places=2, max_digits=5)
   tax = models.DecimalField(decimal_places=2, max_digits=5)
   tip = models.DecimalField(decimal_places=2, max_digits=5)
   

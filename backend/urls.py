@@ -17,14 +17,16 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
     path('api/', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/login/', views.LoginView.as_view(), name='auth_login'),
+    path('api/login/', LoginView.as_view(), name='auth_login'),
     path('__debug__/', include('debug_toolbar.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/obtain', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/token/blacklist/', TokenBlacklistView.as_view(), name='token_blacklist'),
     path('api/logout/', BlacklistRefreshView.as_view(), name="logout"),
-    path('api/register/', views.RegisterView.as_view(), name='auth_register'),
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
+    path('', views.getRoutes),
+    path('profile/', ProfileView.as_view(), name='profiles'),
 ]
 # ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
