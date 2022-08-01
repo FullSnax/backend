@@ -92,17 +92,34 @@ class MenuItemDetailView(APIView):
     serializer_class = MenuItemSerializer
     permission_classes = [AllowAny]
     
-    def get(self, request, id, *args, **kwargs):
+    def get(self, request, pk, *args, **kwargs):
         data = request.data
         user = request.user
+        
+        pk = 5
        
-        menu_item = MenuItem.objects.get(id=id)
+        menu_item = MenuItem.objects.get(pk=pk)
+        print(menu_item)
         
         if not menu_item:
             return Response(
-                {"res": "Object with product id does not exists"},
+                {"res": "Object with menuItem id does not exist"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        serializer_class = MenuItemSerializer(menu_item)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
+      
+    def delete(self, request, id, *args, **kwargs):
+        data = request.data
+        user = request.user
+        menu_item = MenuItem.objects.get(id=id)
+        menu_item.delete()
+        if not menu_item:
+            return Response(
+                {"res": "Object with menuItem id does not exist"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
         serializer_class = MenuItemSerializer(menu_item)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
