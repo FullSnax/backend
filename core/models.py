@@ -6,7 +6,6 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     price = models.DecimalField(decimal_places=2, max_digits=5)
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
     image2 = models.CharField(max_length=100, default="")
     qty = models.IntegerField(default=1)
 
@@ -30,13 +29,16 @@ class Courier(models.Model):
 
 
 class Order(models.Model):
-    Profile = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    Profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    courier = models.ForeignKey(Courier, on_delete=models.CASCADE)
+   
+    def __str__(self):
+        return f"Order {self.total} placed on {self.date}"
+      
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    menu_items = models.ManyToManyField(MenuItem, default="")
-    courier = models.ForeignKey(Courier, on_delete=models.CASCADE, default="")
     total = models.DecimalField(decimal_places=2, max_digits=10)
     tax = models.DecimalField(decimal_places=2, max_digits=10)
     tip = models.DecimalField(decimal_places=2, max_digits=10)
-
-    def __str__(self):
-        return f"Order {self.total} placed on {self.date}"
+    
