@@ -84,7 +84,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
-        fields = ["name", "description", "price", "qty", "image2"]
+        fields = ["name", "description", "price", "qty", "image"]
 
 
 class CourierSerializer(serializers.ModelSerializer):

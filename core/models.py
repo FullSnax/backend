@@ -6,15 +6,8 @@ class MenuItem(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     price = models.DecimalField(decimal_places=2, max_digits=5)
-    image2 = models.CharField(max_length=100, default="")
+    image = models.CharField(max_length=200, default="")
     qty = models.IntegerField(default=1)
-
-    @property
-    def get_photo_url(self):
-        if self.image and hasattr(self.image):
-            return self.image
-        else:
-            return "/static/images/nopic.jpg"
 
     def __str__(self):
         return f"{self.name}"

@@ -75,7 +75,7 @@ class MenuItemView(APIView):
                 "name": item.name,
                 "description": item.description,
                 "price": item.price,
-                "image2": item.image2,
+                "image": item.image,
                 "qty": item.qty,
             }
             for item in MenuItem.objects.all()
@@ -92,13 +92,11 @@ class MenuItemDetailView(APIView):
     serializer_class = MenuItemSerializer
     permission_classes = [AllowAny]
     
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, id, *args, **kwargs):
         data = request.data
         user = request.user
-        
-        pk = 5
        
-        menu_item = MenuItem.objects.get(pk=pk)
+        menu_item = MenuItem.objects.get(id=id)
         print(menu_item)
         
         if not menu_item:
