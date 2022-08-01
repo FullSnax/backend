@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-  # path('profile/<int:pk>/update', ProfileView.as_view(), name='profile_update'),
   path('menuitems/', MenuItemView.as_view(), name='menu_items'),
+  path('menuitems/<str:id>/', MenuItemDetailView.as_view(), name='menu_item'),
   path('orders/', OrderView.as_view(), name='orders'),
 ]

@@ -87,11 +87,30 @@ class MenuItemView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
+          
+class MenuItemDetailView(APIView):
+    serializer_class = MenuItemSerializer
+    permission_classes = [AllowAny]
+    
+    def get(self, request, id, *args, **kwargs):
+        data = request.data
+        user = request.user
+       
+        menu_item = MenuItem.objects.get(id=id)
+        
+        if not menu_item:
+            return Response(
+                {"res": "Object with product id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        serializer_class = MenuItemSerializer(menu_item)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
 
 
 class OrderView(APIView):
 
     serializer_class = OrderSerializer
+    permission_classes = [AllowAny]
 
     def get(self, request):
         order = [
