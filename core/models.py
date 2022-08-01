@@ -8,6 +8,7 @@ class MenuItem(models.Model):
   description = models.CharField(max_length=100)
   price = models.DecimalField(decimal_places=2, max_digits=5)
   image = models.ImageField(null=True, blank=True, upload_to="images/")
+  image2 = models.CharField(max_length=100, default='')
   qty = models.IntegerField(default=1)
   
   @property

@@ -4,13 +4,20 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import ObtainTokenPairWithColorView, ProfileCreate, LogoutAndBlacklistRefreshTokenForUserView, HelloWorldView
+from .views import (
+    ProfileCreate,
+    LogoutAndBlacklistRefreshTokenForUserView,
+    LogoutAllView,
+    MyTokenObtainPairView
+)
+from core.views import LoginView, RegisterView
 
 urlpatterns = [
-    # path('token/obtain', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('token/obtain/', ObtainTokenPairWithColorView.as_view(), name='token_create'),
-    path('user/create/', ProfileCreate.as_view(), name="create_user"),
-    path('blacklist/', LogoutAndBlacklistRefreshTokenForUserView.as_view(), name='blacklist'),
-    path('hello/', HelloWorldView.as_view(), name='hello_world')
+    path("token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/obtain/", MyTokenObtainPairView().as_view(), name="token_create"),
+    path("user/create/", ProfileCreate.as_view(), name="create_user"),
+    path("token/blacklist/", LogoutAndBlacklistRefreshTokenForUserView.as_view(), name="blacklist",),
+    path("logout_all/", LogoutAllView.as_view(), name="auth_logout_all"),
+    path("login/", MyTokenObtainPairView.as_view(), name="auth_login"),
+    path('register/', RegisterView.as_view(), name='auth_register'),
 ]
