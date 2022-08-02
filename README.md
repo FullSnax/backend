@@ -28,6 +28,8 @@ FullSnax is a Full stack web application for food delivery similar to Uber Eats/
 - JavaScript
 - Heroku
 - Bootstrap
+- Postgresql
+- Sqlite3
 
 <h1>ERD</h1>
 
