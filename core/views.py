@@ -122,21 +122,30 @@ class MenuItemDetailView(APIView):
 
 class OrderView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = ()
+    
+    
 
-    def get(self, request):
-        Profile = request.user
-        print(Profile.username)
+    def get(request, id):
+        Profile = get_user_model()
+        # user = request.user
+        # id = request.user.id
+        # print(id)
+        data = Profile.objects.all(id=request.user.id)
+        print(data)
+        
+        # print(data.email)
         # if no cart for the user, just create one
-        order, created = Order.objects.get_or_create(Profile=Profile)
-        # get all cart items for this cart
-        myorderItems = OrderItem.objects.filter(order=order)
-        result = [{'order_item': MenuItemSerializer(item.menu_items).data,
-                   'qty': item.qty
-                   } 
-                  for item in myorderItems
-                ]
-        return Response(result)
-        print(result)
+        # order, created = Order.objects.get_or_create(Profile=Profile)
+        # # get all cart items for this cart
+        # myorderItems = OrderItem.objects.filter(order=order)
+        # result = [{'order_item': MenuItemSerializer(item.menu_items).data,
+        #            'qty': item.qty
+        #            } 
+        #           for item in myorderItems
+        #         ]
+        # return Response(result)
+        # print(result)
        
      
        

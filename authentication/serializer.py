@@ -82,18 +82,31 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = get_user_model()
+        
     class Meta:
         model = MenuItem
-        fields = ('__all__')
+        fields = '__all__'
+        
 
 
 class CourierSerializer(serializers.ModelSerializer):
+        
+    class Meta:
+        model = get_user_model()
+    
     class Meta:
         model = Courier
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
+        
+    class Meta:
+        model = get_user_model()
+
     class Meta:
         model = Order
-        fields = ('__all__')
+        fields = '__all__'
