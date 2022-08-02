@@ -7,7 +7,7 @@ class MenuItem(models.Model):
     description = models.CharField(max_length=100)
     price = models.DecimalField(decimal_places=2, max_digits=5)
     image = models.CharField(max_length=200, default="")
-    qty = models.IntegerField(default=1)
+    
 
     def __str__(self):
         return f"{self.name}"
@@ -22,16 +22,22 @@ class Courier(models.Model):
 
 
 class Order(models.Model):
-    Profile = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    Profile = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     courier = models.ForeignKey(Courier, on_delete=models.CASCADE)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    tip = models.DecimalField(max_digits=10, decimal_places=2, default=0)
    
     def __str__(self):
-        return f"Order {self.total} placed on {self.date}"
+        return f"Order is assigned to {self.courier} placed by {self.Profile}"
       
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
-    total = models.DecimalField(decimal_places=2, max_digits=10)
-    tax = models.DecimalField(decimal_places=2, max_digits=10)
-    tip = models.DecimalField(decimal_places=2, max_digits=10)
+    menu_items = models.OneToOneField(MenuItem, on_delete=models.CASCADE)
+    qty = models.IntegerField(default=1)
+    # date = models.DateField(auto_now_add=True)
+   
+    
+    def __str__(self):
+        return f"The total is {self.total} with tax of {self.tax} and tip of {self.tip} containing {self.order}"
     

@@ -84,16 +84,16 @@ class RegisterSerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
-        fields = ["name", "description", "price", "qty", "image"]
+        fields = ('__all__')
 
 
 class CourierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courier
-        fields = "__all__"
+        fields = ('__all__')
 
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ["date", "menu_items", "tax", "tip", "total"]
+        fields = ('__all__')

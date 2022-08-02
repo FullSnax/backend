@@ -9,3 +9,4 @@ class Profile(AbstractUser):
     fav_food = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=50)
     instructions = models.TextField(max_length=200)
+    email = models.EmailField(unique=True)
