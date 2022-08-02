@@ -19,15 +19,15 @@ FullSnax is a Full stack web application for food delivery similar to Uber Eats/
 <h1>Technologies Used</h1>
 
 
-Django
-Django Rest Framework
-Python
-React
-HTML
-CSS
-JavaScript
-Heroku
-Bootstrap
+- Django
+- Django Rest Framework
+- Python
+- React
+- HTML
+- CSS
+- JavaScript
+- Heroku
+- Bootstrap
 
 <h1>ERD</h1>
 
